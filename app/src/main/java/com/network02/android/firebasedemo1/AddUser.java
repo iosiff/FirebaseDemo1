@@ -9,11 +9,15 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddUser extends AppCompatActivity {
     private EditText username;
     private EditText firstName;
     private EditText lastName;
     private EditText age;
+    private EditText favoriteColors;
     private Button addUser;
 
     @Override
@@ -25,6 +29,7 @@ public class AddUser extends AppCompatActivity {
         firstName = (EditText)findViewById(R.id.fieldFirstName);
         lastName = (EditText)findViewById(R.id.fieldLastName);
         age = (EditText)findViewById(R.id.fieldAge);
+        favoriteColors = (EditText)findViewById(R.id.fieldColors);
 
         addUser = (Button)findViewById(R.id.addUserButton);
         addUser.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +46,16 @@ public class AddUser extends AppCompatActivity {
         String lastNameValue = lastName.getText().toString().trim();
         int ageValue = Integer.parseInt(age.getText().toString().trim());
 
-        User user = new User(usernameValue, firstNameValue, lastNameValue, ageValue);
+        String[] colors = favoriteColors.getText().toString().split("[ ]+");
+
+        List<String> favoriteColors = new ArrayList<>();
+
+        for(String c : colors) {
+            favoriteColors.add(c);
+        }
+
+        User user = new User(usernameValue, firstNameValue, lastNameValue, ageValue, favoriteColors);
+
 
         // add it to the database
         final FirebaseDatabase database = FirebaseDatabase.getInstance();

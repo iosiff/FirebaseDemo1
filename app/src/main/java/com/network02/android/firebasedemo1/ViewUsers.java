@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ViewUsers extends AppCompatActivity {
 
@@ -42,6 +43,14 @@ public class ViewUsers extends AppCompatActivity {
 
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
                     User user = child.getValue(User.class);
+
+                    List<String> cols = new ArrayList<String>();
+                    for(DataSnapshot color : child.child("favoriteColors").getChildren()) {
+                        cols.add(color.getValue().toString());
+                    }
+
+                    user.setFavoriteColors(cols);
+
                     users.add(user);
                 }
 
